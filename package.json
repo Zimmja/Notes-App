@@ -1,9 +1,11 @@
 {
   "name": "notes-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Project setup:",
   "main": "index.js",
   "scripts": {
+    "build": "esbuild index.js --bundle  --outfile=bundle.js",
+    "buildw": "esbuild index.js --bundle  --outfile=bundle.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,5 +14,15 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zimmja/Notes-App.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Zimmja/Notes-App/issues"
+  },
+  "homepage": "https://github.com/Zimmja/Notes-App#readme"
 }
