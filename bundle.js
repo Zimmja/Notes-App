@@ -15,6 +15,4 @@
 
   // index.js
   var firstTwenty = require_firstTwenty();
-  var profilePic = document.querySelector("#testp");
-  profilePic.innerText = firstTwenty("Supercalifragilisticexpialidocious");
 })();
