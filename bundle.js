@@ -15,4 +15,15 @@
 
   // index.js
   var firstTwenty = require_firstTwenty();
+  var createButton = document.querySelector("#createButton");
+  var noteInput = document.querySelector("#noteInput");
+  createButton.addEventListener("click", () => {
+    fetch("http://localhost:3000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: "New notes", content: `${noteInput.value}` })
+    }).then((response) => response.json()).then((data) => {
+      console.log(data);
+    });
+  });
 })();
