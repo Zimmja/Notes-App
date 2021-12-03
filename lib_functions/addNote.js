@@ -10,8 +10,8 @@ const addNotes = (content, callback) => {
     }),
   })
     .then((response) => response.json())
-    .then((res) => {
-      callback(res);
+    .then((_r) => {
+      callback();
     });
 };
 

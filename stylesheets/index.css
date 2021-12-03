@@ -10,7 +10,7 @@ body {
   background-color: ghostwhite;
 }
 #notepad {
-  width: 73%;
+  width: 50%;
   font-size: 18px;
   padding: 8px 20px 20px;
   margin: 15% auto;
@@ -23,6 +23,7 @@ body {
 #noteBoard {
   font-size: 16px;
   color: rgb(13, 74, 153);
+  cursor: pointer;
 }
 #noteInput {
   width: 100%;

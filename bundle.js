@@ -25,8 +25,8 @@
             title: `${firstTwenty(content.value)}`,
             content: `${content.value}`
           })
-        }).then((response) => response.json()).then((res) => {
-          callback(res);
+        }).then((response) => response.json()).then((_r) => {
+          callback();
         });
       };
       module.exports = addNotes;
@@ -36,37 +36,15 @@
   // lib_functions/displayNotes.js
   var require_displayNotes = __commonJS({
     "lib_functions/displayNotes.js"(exports, module) {
-      var displayNotes2 = (createdNote = null) => {
-        const noteBoard = document.querySelector("#noteBoard");
+      var displayNotes2 = (follow_up) => {
         fetch("http://localhost:3000/notes").then((response) => {
           response.json().then((notes) => {
-            if (createdNote) {
-              addNoteToBoard(noteBoard, createdNote);
-            } else {
-              addAllNotesToBoard(noteBoard, notes);
-            }
+            follow_up(notes);
           });
         });
       };
-      var addAllNotesToBoard = (noteBoard, notes) => {
-        noteBoard.innerHTML = "";
-        notes.forEach((note, index) => {
-          addNoteToBoard(noteBoard, note, index);
-        });
-      };
-      var addNoteToBoard = (noteBoard, note, id = false) => {
-        const noteCount = document.querySelectorAll(".note").length;
-        const idNum = id ? id : noteCount;
-        const newDiv = document.createElement("div");
-        newDiv.innerText = note.title;
-        newDiv.className = "note";
-        newDiv.id = `note-${idNum}`;
-        noteBoard.appendChild(newDiv);
-      };
       module.exports = {
-        primary: displayNotes2,
-        sub01: addAllNotesToBoard,
-        sub02: addNoteToBoard
+        primary: displayNotes2
       };
     }
   });
@@ -74,11 +52,33 @@
   // index.js
   var addNote = require_addNote();
   var displayNotes = require_displayNotes().primary;
+  var noteBoard = document.querySelector("#noteBoard");
+  var updateDisplay = () => {
+    displayNotes(resetNotes);
+  };
+  var resetNotes = (notes) => {
+    noteBoard.innerHTML = "";
+    notes.forEach((note, index) => {
+      addNoteToBoard(noteBoard, note, index);
+    });
+  };
+  var addNoteToBoard = (noteBoard2, note, id = false) => {
+    const noteCount = document.querySelectorAll(".note").length;
+    const idNum = id ? id : noteCount;
+    const newDiv = document.createElement("p");
+    newDiv.innerText = note.title;
+    newDiv.className = "note";
+    newDiv.id = `note-${idNum}`;
+    newDiv.addEventListener("click", () => {
+      cencor(newDiv);
+    });
+    noteBoard2.appendChild(newDiv);
+  };
   var createButton = document.querySelector("#createButton");
   var noteContent = document.querySelector("#noteInput");
   createButton.addEventListener("click", () => {
-    addNote(noteContent, displayNotes);
+    addNote(noteContent, updateDisplay);
   });
-  displayNotes();
+  updateDisplay();
   console.log("Frontend loaded");
 })();
