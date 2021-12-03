@@ -47,10 +47,26 @@
     }
   });
 
+  // lib_functions/getOneNote.js
+  var require_getOneNote = __commonJS({
+    "lib_functions/getOneNote.js"(exports, module) {
+      var getOneNote2 = (index, follow_up) => {
+        fetch("http://localhost:3000/notes").then((response) => {
+          response.json().then((notes) => {
+            follow_up(notes[index]);
+          });
+        });
+      };
+      module.exports = getOneNote2;
+    }
+  });
+
   // index.js
   var addNote = require_addNote();
   var getNotes = require_getNotes();
+  var getOneNote = require_getOneNote();
   var noteBoard = document.querySelector("#noteBoard");
+  var displayContent = document.querySelector("#displayContent");
   var updateDisplay = () => {
     getNotes(resetNotes);
   };
@@ -64,13 +80,20 @@
     const newDiv = document.createElement("p");
     newDiv.innerText = note.title;
     newDiv.className = "note";
-    newDiv.id = `note-${idNum}`;
+    newDiv.id = `${idNum}`;
     createEventListener(newDiv);
     noteBoard.appendChild(newDiv);
   };
+  var displayOneNote = (note) => {
+    displayContent.innerHTML = "";
+    const oneNote = document.createElement("p");
+    oneNote.innerText = note.content;
+    oneNote.className = "oneNote";
+    oneNote.id = `note00`;
+    displayContent.appendChild(oneNote);
+  };
   var createButton = document.querySelector("#createButton");
   var noteContent = document.querySelector("#noteInput");
-  var displayContent = document.querySelector("#displayContent");
   createButton.addEventListener("click", () => {
     addNote(noteContent, updateDisplay);
   });
@@ -78,7 +101,7 @@
     console.log(`New note created, id: ${newEl.id}`);
     newEl.addEventListener("click", () => {
       console.log(`Clicked note, id: ${newEl.id}`);
-      displayContent.innerHTML = "";
+      getOneNote(Number(newEl.id), displayOneNote);
     });
   };
   updateDisplay();
