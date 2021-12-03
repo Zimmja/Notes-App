@@ -33,52 +33,54 @@
     }
   });
 
-  // lib_functions/displayNotes.js
-  var require_displayNotes = __commonJS({
-    "lib_functions/displayNotes.js"(exports, module) {
-      var displayNotes2 = (follow_up) => {
+  // lib_functions/getNotes.js
+  var require_getNotes = __commonJS({
+    "lib_functions/getNotes.js"(exports, module) {
+      var getNotes2 = (follow_up) => {
         fetch("http://localhost:3000/notes").then((response) => {
           response.json().then((notes) => {
             follow_up(notes);
           });
         });
       };
-      module.exports = {
-        primary: displayNotes2
-      };
+      module.exports = getNotes2;
     }
   });
 
   // index.js
   var addNote = require_addNote();
-  var displayNotes = require_displayNotes().primary;
+  var getNotes = require_getNotes();
   var noteBoard = document.querySelector("#noteBoard");
   var updateDisplay = () => {
-    displayNotes(resetNotes);
+    getNotes(resetNotes);
   };
   var resetNotes = (notes) => {
     noteBoard.innerHTML = "";
     notes.forEach((note, index) => {
-      addNoteToBoard(noteBoard, note, index);
+      addNoteToBoard(note, index);
     });
   };
-  var addNoteToBoard = (noteBoard2, note, id = false) => {
-    const noteCount = document.querySelectorAll(".note").length;
-    const idNum = id ? id : noteCount;
+  var addNoteToBoard = (note, idNum) => {
     const newDiv = document.createElement("p");
     newDiv.innerText = note.title;
     newDiv.className = "note";
     newDiv.id = `note-${idNum}`;
-    newDiv.addEventListener("click", () => {
-      cencor(newDiv);
-    });
-    noteBoard2.appendChild(newDiv);
+    createEventListener(newDiv);
+    noteBoard.appendChild(newDiv);
   };
   var createButton = document.querySelector("#createButton");
   var noteContent = document.querySelector("#noteInput");
+  var displayContent = document.querySelector("#displayContent");
   createButton.addEventListener("click", () => {
     addNote(noteContent, updateDisplay);
   });
+  var createEventListener = (newEl) => {
+    console.log(`New note created, id: ${newEl.id}`);
+    newEl.addEventListener("click", () => {
+      console.log(`Clicked note, id: ${newEl.id}`);
+      displayContent.innerHTML = "";
+    });
+  };
   updateDisplay();
   console.log("Frontend loaded");
 })();

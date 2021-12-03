@@ -1,5 +1,5 @@
 const addNote = require("./lib_functions/addNote.js");
-const displayNotes = require("./lib_functions/displayNotes.js").primary;
+const getNotes = require("./lib_functions/getNotes.js");
 
 //========================================
 // FUNCTIONS
@@ -8,32 +8,24 @@ const displayNotes = require("./lib_functions/displayNotes.js").primary;
 const noteBoard = document.querySelector("#noteBoard");
 
 const updateDisplay = () => {
-  displayNotes(resetNotes);
+  getNotes(resetNotes);
 };
 
 const resetNotes = (notes) => {
   noteBoard.innerHTML = "";
   notes.forEach((note, index) => {
-    addNoteToBoard(noteBoard, note, index);
+    addNoteToBoard(note, index);
   });
 };
 
-const addNoteToBoard = (noteBoard, note, id = false) => {
-  const noteCount = document.querySelectorAll(".note").length;
-  const idNum = id ? id : noteCount;
+const addNoteToBoard = (note, idNum) => {
   const newDiv = document.createElement("p");
   newDiv.innerText = note.title;
   newDiv.className = "note";
   newDiv.id = `note-${idNum}`;
-  newDiv.addEventListener("click", () => {
-    cencor(newDiv);
-  });
+  createEventListener(newDiv);
   noteBoard.appendChild(newDiv);
 };
-
-// const sayHello = (response) => {
-//   console.log(`HELLO: ${response}`);
-// };
 
 //========================================
 // EVENT LISTENERS
@@ -41,10 +33,19 @@ const addNoteToBoard = (noteBoard, note, id = false) => {
 
 const createButton = document.querySelector("#createButton");
 const noteContent = document.querySelector("#noteInput");
+const displayContent = document.querySelector("#displayContent");
 
 createButton.addEventListener("click", () => {
   addNote(noteContent, updateDisplay);
 });
+
+const createEventListener = (newEl) => {
+  console.log(`New note created, id: ${newEl.id}`);
+  newEl.addEventListener("click", () => {
+    console.log(`Clicked note, id: ${newEl.id}`);
+    displayContent.innerHTML = "";
+  });
+};
 
 //========================================
 // INITIATION
