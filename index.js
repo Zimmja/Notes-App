@@ -3,7 +3,7 @@ const getNotes = require("./lib_functions/getNotes.js");
 const getOneNote = require("./lib_functions/getOneNote.js");
 
 const noteBoard = document.querySelector("#noteBoard");
-const displayContent = document.querySelector("#displayContent");
+const disCont = document.querySelector("#displayContent");
 const createButton = document.querySelector("#createButton");
 const noteContent = document.querySelector("#noteInput");
 
@@ -24,24 +24,30 @@ const resetNotes = (notes) => {
 };
 
 const addNoteToBoard = (note, idNum) => {
-  const newDiv = newElement("p", note.title, "note", `${idNum}`);
-  createNoteListener(newDiv);
-  noteBoard.appendChild(newDiv);
+  return newElement("p", note.title, "note", `${idNum}`, newNoteEL, noteBoard);
 };
 
 const displayOneNote = (note) => {
-  displayContent.innerHTML = "";
-  const oneNote = newElement("p", note.content, "oneNote", "note00");
-  createReloadListener(oneNote);
-  displayContent.appendChild(oneNote);
+  disCont.innerHTML = "";
+  return newElement("p", note.content, "oneNote", "note00", newREL, disCont);
 };
 
-const newElement = (elType, elContent, elClass, elID) => {
+const newElement = (elType, elContent, elClass, elID, listenFunc, docLoc) => {
   let newEl = document.createElement(elType);
+  setAttributes(newEl, elContent, elClass, elID);
+  addElementToPage(newEl, listenFunc, docLoc);
+  return newEl;
+};
+
+const setAttributes = (newEl, elContent, elClass, elID) => {
   newEl.innerText = elContent;
   newEl.className = elClass;
   newEl.id = elID;
-  return newEl;
+};
+
+const addElementToPage = (newEl, listenFunc, docLoc) => {
+  listenFunc(newEl);
+  docLoc.appendChild(newEl);
 };
 
 //========================================
@@ -52,14 +58,14 @@ createButton.addEventListener("click", () => {
   addNote(noteContent, updateDisplay);
 });
 
-const createNoteListener = (newEl) => {
+const newNoteEL = (newEl) => {
   newEl.addEventListener("click", () => {
     console.log(`Clicked note, id: ${newEl.id}`);
     getOneNote(Number(newEl.id), displayOneNote);
   });
 };
 
-const createReloadListener = (newEl) => {
+const newREL = (newEl) => {
   newEl.addEventListener("click", () => {
     location.reload();
   });

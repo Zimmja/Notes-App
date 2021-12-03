@@ -70,7 +70,7 @@
   var getNotes = require_getNotes();
   var getOneNote = require_getOneNote();
   var noteBoard = document.querySelector("#noteBoard");
-  var displayContent = document.querySelector("#displayContent");
+  var disCont = document.querySelector("#displayContent");
   var createButton = document.querySelector("#createButton");
   var noteContent = document.querySelector("#noteInput");
   var updateDisplay = () => {
@@ -84,33 +84,37 @@
     });
   };
   var addNoteToBoard = (note, idNum) => {
-    const newDiv = newElement("p", note.title, "note", `${idNum}`);
-    createNoteListener(newDiv);
-    noteBoard.appendChild(newDiv);
+    return newElement("p", note.title, "note", `${idNum}`, newNoteEL, noteBoard);
   };
   var displayOneNote = (note) => {
-    displayContent.innerHTML = "";
-    const oneNote = newElement("p", note.content, "oneNote", "note00");
-    createReloadListener(oneNote);
-    displayContent.appendChild(oneNote);
+    disCont.innerHTML = "";
+    return newElement("p", note.content, "oneNote", "note00", newREL, disCont);
   };
-  var newElement = (elType, elContent, elClass, elID) => {
+  var newElement = (elType, elContent, elClass, elID, listenFunc, docLoc) => {
     let newEl = document.createElement(elType);
+    setAttributes(newEl, elContent, elClass, elID);
+    addElementToPage(newEl, listenFunc, docLoc);
+    return newEl;
+  };
+  var setAttributes = (newEl, elContent, elClass, elID) => {
     newEl.innerText = elContent;
     newEl.className = elClass;
     newEl.id = elID;
-    return newEl;
+  };
+  var addElementToPage = (newEl, listenFunc, docLoc) => {
+    listenFunc(newEl);
+    docLoc.appendChild(newEl);
   };
   createButton.addEventListener("click", () => {
     addNote(noteContent, updateDisplay);
   });
-  var createNoteListener = (newEl) => {
+  var newNoteEL = (newEl) => {
     newEl.addEventListener("click", () => {
       console.log(`Clicked note, id: ${newEl.id}`);
       getOneNote(Number(newEl.id), displayOneNote);
     });
   };
-  var createReloadListener = (newEl) => {
+  var newREL = (newEl) => {
     newEl.addEventListener("click", () => {
       location.reload();
     });
