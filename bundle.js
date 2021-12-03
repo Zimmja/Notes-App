@@ -18,16 +18,20 @@
     "lib_functions/addNote.js"(exports, module) {
       var firstTwenty = require_firstTwenty();
       var addNotes = (content, callback) => {
-        fetch("http://localhost:3000/notes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: `${firstTwenty(content.value)}`,
-            content: `${content.value}`
-          })
-        }).then((response) => response.json()).then((_r) => {
-          callback();
-        });
+        contVal = content.value;
+        if (contVal != "") {
+          fetch("http://localhost:3000/notes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: `${firstTwenty(contVal)}`,
+              content: `${contVal}`
+            })
+          }).then((response) => response.json()).then((_r) => {
+            console.log(`Added new note: ${contVal}`);
+            callback();
+          });
+        }
       };
       module.exports = addNotes;
     }
@@ -67,7 +71,10 @@
   var getOneNote = require_getOneNote();
   var noteBoard = document.querySelector("#noteBoard");
   var displayContent = document.querySelector("#displayContent");
+  var createButton = document.querySelector("#createButton");
+  var noteContent = document.querySelector("#noteInput");
   var updateDisplay = () => {
+    noteContent.value = "";
     getNotes(resetNotes);
   };
   var resetNotes = (notes) => {
@@ -77,31 +84,35 @@
     });
   };
   var addNoteToBoard = (note, idNum) => {
-    const newDiv = document.createElement("p");
-    newDiv.innerText = note.title;
-    newDiv.className = "note";
-    newDiv.id = `${idNum}`;
-    createEventListener(newDiv);
+    const newDiv = newElement("p", note.title, "note", `${idNum}`);
+    createNoteListener(newDiv);
     noteBoard.appendChild(newDiv);
   };
   var displayOneNote = (note) => {
     displayContent.innerHTML = "";
-    const oneNote = document.createElement("p");
-    oneNote.innerText = note.content;
-    oneNote.className = "oneNote";
-    oneNote.id = `note00`;
+    const oneNote = newElement("p", note.content, "oneNote", "note00");
+    createReloadListener(oneNote);
     displayContent.appendChild(oneNote);
   };
-  var createButton = document.querySelector("#createButton");
-  var noteContent = document.querySelector("#noteInput");
+  var newElement = (elType, elContent, elClass, elID) => {
+    let newEl = document.createElement(elType);
+    newEl.innerText = elContent;
+    newEl.className = elClass;
+    newEl.id = elID;
+    return newEl;
+  };
   createButton.addEventListener("click", () => {
     addNote(noteContent, updateDisplay);
   });
-  var createEventListener = (newEl) => {
-    console.log(`New note created, id: ${newEl.id}`);
+  var createNoteListener = (newEl) => {
     newEl.addEventListener("click", () => {
       console.log(`Clicked note, id: ${newEl.id}`);
       getOneNote(Number(newEl.id), displayOneNote);
+    });
+  };
+  var createReloadListener = (newEl) => {
+    newEl.addEventListener("click", () => {
+      location.reload();
     });
   };
   updateDisplay();

@@ -2,14 +2,17 @@ const addNote = require("./lib_functions/addNote.js");
 const getNotes = require("./lib_functions/getNotes.js");
 const getOneNote = require("./lib_functions/getOneNote.js");
 
+const noteBoard = document.querySelector("#noteBoard");
+const displayContent = document.querySelector("#displayContent");
+const createButton = document.querySelector("#createButton");
+const noteContent = document.querySelector("#noteInput");
+
 //========================================
 // FUNCTIONS
 //========================================
 
-const noteBoard = document.querySelector("#noteBoard");
-const displayContent = document.querySelector("#displayContent");
-
 const updateDisplay = () => {
+  noteContent.value = "";
   getNotes(resetNotes);
 };
 
@@ -21,39 +24,44 @@ const resetNotes = (notes) => {
 };
 
 const addNoteToBoard = (note, idNum) => {
-  const newDiv = document.createElement("p");
-  newDiv.innerText = note.title;
-  newDiv.className = "note";
-  newDiv.id = `${idNum}`;
-  createEventListener(newDiv);
+  const newDiv = newElement("p", note.title, "note", `${idNum}`);
+  createNoteListener(newDiv);
   noteBoard.appendChild(newDiv);
 };
 
 const displayOneNote = (note) => {
   displayContent.innerHTML = "";
-  const oneNote = document.createElement("p");
-  oneNote.innerText = note.content;
-  oneNote.className = "oneNote";
-  oneNote.id = `note00`;
+  const oneNote = newElement("p", note.content, "oneNote", "note00");
+  createReloadListener(oneNote);
   displayContent.appendChild(oneNote);
+};
+
+const newElement = (elType, elContent, elClass, elID) => {
+  let newEl = document.createElement(elType);
+  newEl.innerText = elContent;
+  newEl.className = elClass;
+  newEl.id = elID;
+  return newEl;
 };
 
 //========================================
 // EVENT LISTENERS
 //========================================
 
-const createButton = document.querySelector("#createButton");
-const noteContent = document.querySelector("#noteInput");
-
 createButton.addEventListener("click", () => {
   addNote(noteContent, updateDisplay);
 });
 
-const createEventListener = (newEl) => {
-  console.log(`New note created, id: ${newEl.id}`);
+const createNoteListener = (newEl) => {
   newEl.addEventListener("click", () => {
     console.log(`Clicked note, id: ${newEl.id}`);
     getOneNote(Number(newEl.id), displayOneNote);
+  });
+};
+
+const createReloadListener = (newEl) => {
+  newEl.addEventListener("click", () => {
+    location.reload();
   });
 };
 
