@@ -8,7 +8,7 @@ The goals of this week were:
 
 Most of the week was spent learning the fundamentals in pair-programming sessions. I completed this with[Ben Dowsett](https://github.com/Zimmja/DOM-practice), [Simon Jacobs](https://github.com/Zimmja/Matt-and-Simon), [Jacob Hanrahan](https://github.com/JacobCH93/Playing_with_Fetch_JS). Building the actual application was completed solo.
 
-![Notes app](notesapp.png "Notes app")
+![Notes app](media/notesapp.png "Notes app")
 
 ### Project setup
 
