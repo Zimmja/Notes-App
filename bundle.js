@@ -7,7 +7,8 @@
   var require_firstTwenty = __commonJS({
     "lib_functions/firstTwenty.js"(exports, module) {
       var firstTwenty = (str) => {
-        return `${str.substring(0, 20)}${str.length < 20 ? "" : "..."}`;
+        let noteLength = 30;
+        return `${str.substring(0, noteLength)}${str.length < noteLength ? "" : "..."}`;
       };
       module.exports = firstTwenty;
     }
