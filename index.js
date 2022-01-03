@@ -24,25 +24,43 @@ const resetNotes = (notes) => {
 };
 
 const addNoteToBoard = (note, idNum) => {
-  return newElement("p", note.title, "note", `${idNum}`, newNoteEL, noteBoard);
+  return newElement(
+    {
+      type: "p",
+      content: note.title,
+      class: "note",
+      id: `${idNum}`,
+      loc: noteBoard,
+    },
+    newNoteEL
+  );
 };
 
 const displayOneNote = (note) => {
   disCont.innerHTML = "";
-  return newElement("p", note.content, "oneNote", "note00", newREL, disCont);
+  return newElement(
+    {
+      type: "p",
+      content: note.content,
+      class: "oneNote",
+      id: `note00`,
+      loc: disCont,
+    },
+    newREL
+  );
 };
 
-const newElement = (elType, elContent, elClass, elID, listenFunc, docLoc) => {
-  let newEl = document.createElement(elType);
-  setAttributes(newEl, elContent, elClass, elID);
-  addElementToPage(newEl, listenFunc, docLoc);
+const newElement = (element, listenFunc) => {
+  let newEl = document.createElement(element.type);
+  setAttributes(newEl, element);
+  addElementToPage(newEl, listenFunc, element.loc);
   return newEl;
 };
 
-const setAttributes = (newEl, elContent, elClass, elID) => {
-  newEl.innerText = elContent;
-  newEl.className = elClass;
-  newEl.id = elID;
+const setAttributes = (newEl, element) => {
+  newEl.innerText = element.content;
+  newEl.className = element.class;
+  newEl.id = element.id;
 };
 
 const addElementToPage = (newEl, listenFunc, docLoc) => {

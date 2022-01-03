@@ -84,22 +84,34 @@
     });
   };
   var addNoteToBoard = (note, idNum) => {
-    return newElement("p", note.title, "note", `${idNum}`, newNoteEL, noteBoard);
+    return newElement({
+      type: "p",
+      content: note.title,
+      class: "note",
+      id: `${idNum}`,
+      loc: noteBoard
+    }, newNoteEL);
   };
   var displayOneNote = (note) => {
     disCont.innerHTML = "";
-    return newElement("p", note.content, "oneNote", "note00", newREL, disCont);
+    return newElement({
+      type: "p",
+      content: note.content,
+      class: "oneNote",
+      id: `note00`,
+      loc: disCont
+    }, newREL);
   };
-  var newElement = (elType, elContent, elClass, elID, listenFunc, docLoc) => {
-    let newEl = document.createElement(elType);
-    setAttributes(newEl, elContent, elClass, elID);
-    addElementToPage(newEl, listenFunc, docLoc);
+  var newElement = (element, listenFunc) => {
+    let newEl = document.createElement(element.type);
+    setAttributes(newEl, element);
+    addElementToPage(newEl, listenFunc, element.loc);
     return newEl;
   };
-  var setAttributes = (newEl, elContent, elClass, elID) => {
-    newEl.innerText = elContent;
-    newEl.className = elClass;
-    newEl.id = elID;
+  var setAttributes = (newEl, element) => {
+    newEl.innerText = element.content;
+    newEl.className = element.class;
+    newEl.id = element.id;
   };
   var addElementToPage = (newEl, listenFunc, docLoc) => {
     listenFunc(newEl);
