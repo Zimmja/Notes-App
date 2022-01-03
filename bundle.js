@@ -85,23 +85,20 @@
     });
   };
   var addNoteToBoard = (note, idNum) => {
-    return newElement({
-      type: "p",
-      content: note.title,
-      class: "note",
-      id: `${idNum}`,
-      loc: noteBoard
-    }, newNoteEL);
+    return newElement(noteHash("p", note.title, "note", `${idNum}`, noteBoard), newNoteEL);
   };
   var displayOneNote = (note) => {
     disCont.innerHTML = "";
-    return newElement({
-      type: "p",
-      content: note.content,
-      class: "oneNote",
-      id: `note00`,
-      loc: disCont
-    }, newREL);
+    return newElement(noteHash("p", note.content, "oneNote", `note00`, disCont), newREL);
+  };
+  var noteHash = (elType, elCont, elClass, elID, elLoc) => {
+    return {
+      type: elType,
+      content: elCont,
+      class: elClass,
+      id: elID,
+      loc: elLoc
+    };
   };
   var newElement = (element, listenFunc) => {
     let newEl = document.createElement(element.type);

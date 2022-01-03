@@ -25,13 +25,7 @@ const resetNotes = (notes) => {
 
 const addNoteToBoard = (note, idNum) => {
   return newElement(
-    {
-      type: "p",
-      content: note.title,
-      class: "note",
-      id: `${idNum}`,
-      loc: noteBoard,
-    },
+    noteHash("p", note.title, "note", `${idNum}`, noteBoard),
     newNoteEL
   );
 };
@@ -39,15 +33,19 @@ const addNoteToBoard = (note, idNum) => {
 const displayOneNote = (note) => {
   disCont.innerHTML = "";
   return newElement(
-    {
-      type: "p",
-      content: note.content,
-      class: "oneNote",
-      id: `note00`,
-      loc: disCont,
-    },
+    noteHash("p", note.content, "oneNote", `note00`, disCont),
     newREL
   );
+};
+
+const noteHash = (elType, elCont, elClass, elID, elLoc) => {
+  return {
+    type: elType,
+    content: elCont,
+    class: elClass,
+    id: elID,
+    loc: elLoc,
+  };
 };
 
 const newElement = (element, listenFunc) => {

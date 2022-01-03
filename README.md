@@ -1,4 +1,4 @@
-#### Introduction
+## Introduction
 
 The goals of this week were:
 
