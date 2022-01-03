@@ -1,3 +1,15 @@
+#### Introduction
+
+The goals of this week were:
+
+1. Test-drive a simple Javascript program running in a web browser, using modern JS build tools.
+2. Use the DOM API to build a web user interface for this program.
+3. Build a single-page web application fetching and updating remote data using JS.
+
+Most of the week was spent learning the fundamentals in pair-programming sessions. I completed this with[Ben Dowsett](https://github.com/Zimmja/DOM-practice), [Simon Jacobs](https://github.com/Zimmja/Matt-and-Simon), [Jacob Hanrahan](https://github.com/JacobCH93/Playing_with_Fetch_JS). Building the actual application was completed solo.
+
+![Notes app](notesapp.png "Notes app")
+
 ### Project setup
 
 1. Export the contents of notes-backend-server.zip
