@@ -16,13 +16,18 @@
           <button id="createButton">Create</button><br><br>
           <div id="noteBoard"></div>
         </div>
-        <div id="test_button_container"></div>
+        <div class="test_button_container" data-commentid="1"></div>
+        <div class="test_button_container" data-commentid="2"></div>
       </div>
 
-      <script src="bundle.js" type="text/javascript"></script>
+      <!-- Load React. -->
+      <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
       <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
       <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 
+      <!-- Load our React component. -->
       <script src="test_button.js"></script>
+
+      <script src="bundle.js" type="text/javascript"></script>
     </body>
 </html>

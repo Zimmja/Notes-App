@@ -93,3 +93,5 @@ const newREL = (newEl) => {
 
 updateDisplay();
 console.log("Frontend loaded");
+
+module.exports = updateDisplay;

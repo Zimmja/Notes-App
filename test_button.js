@@ -10,7 +10,7 @@ class TestButton extends React.Component {
 
   render() {
     if (this.state.liked) {
-      return "Test successful.";
+      return "Test complete on " + this.props.commentID;
     }
 
     return e(
@@ -21,5 +21,7 @@ class TestButton extends React.Component {
   }
 }
 
-const domContainer = document.querySelector("#test_button_container");
-ReactDOM.render(e(TestButton), domContainer);
+document.querySelectorAll(".test_button_container").forEach((domContainer) => {
+  const commentID = parseInt(domContainer.dataset.commentid);
+  ReactDOM.render(e(TestButton, { commentID: commentID }), domContainer);
+});
